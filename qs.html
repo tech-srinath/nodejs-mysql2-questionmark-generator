@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question mark generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <style>
+        body {
+            height: 100%;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .center {
+            border: 1px solid #f2f2f2;
+            border-radius: 5px;
+            padding: 20px;
+            position: absolute;
+            top: 35%;
+            right: 40%;
+            z-index: 999;
+            color: #fff;
+            box-shadow: 10px 10px 1px 1px #fff;
+        }
+
+        button {
+            border: 1px solid #fff;
+            border-radius: 5px;
+            color: white;
+            background: transparent;
+        }
+
+        button:hover {
+            color: black;
+            background: white;
+        }
+
+        #particles-js {
+            background-color: #255;
+            z-index: 850;
+            position: relative;
+        }
+    </style>
+    <div id="particles-js"></div>
+    <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <div class="center">
+        <h3 style="text-align: center;">Question Mark Generator</h3>
+        <hr>
+        <form onsubmit="generateQs()">
+            <table>
+                <tr>
+                    <td>Variables</td>
+                    <td><input type="text" id="variables"></td>
+                </tr>
+                <tr>
+                    <td>Delimiter</td>
+                    <td><input type="text" placeholder="Other than ," id="delimiter" value=','></td>
+                </tr>
+                <tr>
+                    <td>Replace with</td>
+                    <td><input type="Other than ?" id="replace" value='?'></td>
+                    <td><button type="submit">GO</button></td>
+                </tr>
+            </table>
+
+        </form>
+        <br>
+        <table>
+            <tr>
+                <td>Count</td>
+                <td>:</td>
+                <td id="count">0</td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td>Output</td>
+                <td><input type="text" id="output"></td>
+                <td><button onclick="copy('output')">Copy</button></td>
+            </tr>
+        </table>
+        <br>
+        <button onclick="reset()" style="width: 100%;">Reset</button>
+    </div>
+    <footer style="text-align: center;"><i class="fa">&#xf09b;</i> <a href="https://github.com/tech-srinath">Tech-Srinath</a></a></footer>
+</body>
+<script>
+    const generateQs = () => {
+        event.preventDefault()
+        var delim = document.getElementById('delimiter').value;
+        var repl = document.getElementById('replace').value;
+        var data = document.getElementById('variables').value;
+        var arr = data.split(delim);
+        var count = arr.length;
+        document.getElementById('count').innerText = count;
+        document.getElementById('output').value = getQs(count, repl + delim);
+    }
+    const getQs = (count, repl) => {
+        return repl.repeat(count)
+    }
+    const copy = (id) => {
+        var copyText = document.getElementById(id);
+        copyText.select();
+        copyText.setSelectionRange(0, 99999)
+        document.execCommand("copy");
+    }
+    const reset = () => {
+        window.location.reload();
+    }
+</script>
+<script>
+    window.addEventListener("hashchange", function () {
+        scrollBy(0, -55);
+    });
+
+    particlesJS("particles-js", {
+        particles: {
+            number: { value: 80, density: { enable: true, value_area: 800 } },
+            color: { value: "#ffffff" },
+            shape: {
+                type: "circle",
+                stroke: { width: 0, color: "#000000" },
+                polygon: { nb_sides: 5 },
+                image: { src: "img/github.svg", width: 100, height: 100 }
+            },
+            opacity: {
+                value: 0.5,
+                random: false,
+                anim: { enable: false, speed: 1, opacity_min: 0.1, sync: false }
+            },
+            size: {
+                value: 3,
+                random: true,
+                anim: { enable: false, speed: 40, size_min: 0.1, sync: false }
+            },
+            line_linked: {
+                enable: true,
+                distance: 150,
+                color: "#ffffff",
+                opacity: 0.4,
+                width: 1
+            },
+            move: {
+                enable: true,
+                speed: 6,
+                direction: "none",
+                random: false,
+                straight: false,
+                out_mode: "out",
+                bounce: false,
+                attract: { enable: false, rotateX: 600, rotateY: 1200 }
+            }
+        },
+        interactivity: {
+            detect_on: "canvas",
+            events: {
+                onhover: { enable: true, mode: "repulse" },
+                onclick: { enable: true, mode: "push" },
+                resize: true
+            },
+            modes: {
+                grab: { distance: 400, line_linked: { opacity: 1 } },
+                bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+                repulse: { distance: 100, duration: 0.4 },
+                push: { particles_nb: 4 },
+                remove: { particles_nb: 2 }
+            }
+        },
+        retina_detect: true
+    });
+    var count_particles, stats, update;
+    stats = new Stats();
+    stats.setMode(0);
+    stats.domElement.style.position = "absolute";
+    stats.domElement.style.left = "0px";
+    stats.domElement.style.top = "0px";
+    document.body.appendChild(stats.domElement);
+    count_particles = document.querySelector(".js-count-particles");
+    update = function () {
+        stats.begin();
+        stats.end();
+        if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
+            count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
+        }
+        requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+</script>
+
+</html>
