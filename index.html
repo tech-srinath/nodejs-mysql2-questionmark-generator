@@ -98,10 +98,18 @@
         var arr = data.split(delim);
         var count = arr.length;
         document.getElementById('count').innerText = count;
-        document.getElementById('output').value = getQs(count, repl + delim);
+        // document.getElementById('output').value = getQs(count, repl + delim);
+        document.getElementById('output').value = getQs(count, repl, delim);
     }
     const getQs = (count, repl) => {
         return repl.repeat(count)
+    }
+    const getQs2 = (count, repl, delim) => {
+        let qs = [];
+        for(var i = 0; i<count; i++){
+            qs.push(repl);
+        }
+        return repl.join(delim)
     }
     const copy = (id) => {
         var copyText = document.getElementById(id);
